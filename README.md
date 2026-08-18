@@ -2,28 +2,6 @@
 
 TRMS is a comprehensive web-based application designed to manage and track patient referrals across health facilities in Tigray. It ensures secure, offline-capable, and role-based access to critical health referral workflows.
 
-## Project Structure
-
-This repository is structured as a monorepo containing both the frontend and backend applica
-TRMS/
-├── frontend/               # Next.js Application (User Interface)
-│   ├── src/
-│   │   ├── app/            # Next.js App Router pages (Nurse, Admin, Triage)
-│   │   ├── components/     # Reusable UI components
-│   │   ├── lib/            # Utilities (API clients, i18n, syncEngine)
-│   │   └── context/        # React Context providers (AuthContext)
-│   ├── public/             # Static assets
-│   └── package.json        # Frontend dependencies
-│
-├── backend/                # NestJS Application (API & Business Logic)
-│   ├── src/                # Controllers, Services, and Modules
-│   ├── prisma/             # Database schema and seed scripts
-│   ├── storage/            # Local file storage (uploads)
-│   ├── .env                # Environment variables (Backend config)
-│   └── package.json        # Backend dependencies
-│
-└── trms_test_plan.md       # Quality Assurance and testing checklist
-
 ## Tech Stack
 
 To ensure easy collaboration and avoid environment conflicts, all team members must use the following technologies:
@@ -41,8 +19,6 @@ To ensure easy collaboration and avoid environment conflicts, all team members m
  4.Database: PostgreSQL
  5.Security: JWT (Passport), bcrypt
  6.Notifications: Twilio SDK
-
-
 ##  Getting Started
 
 Follow these steps to set up the development environment on your local machine.
@@ -64,14 +40,6 @@ Ensure your local PostgreSQL server is running. Create a database named trms.
    bash
    npm install
 3. Configure your environment variables:
-   Copy `.env.example` to `.env` (or create a `.env` file) and add the following:
-   env
-   DATABASE_URL="postgresql://<USER>:<PASSWORD>@localhost:5432/trms?schema=public"
-   JWT_SECRET="your-development-jwt-secret"
-   TWILIO_ACCOUNT_SID="your-twilio-sid"
-   TWILIO_AUTH_TOKEN="your-twilio-token"
-   TWILIO_PHONE_NUMBER="+1234567890"
-
 4. Run database migrations to apply the schema:
    bash
    npx prisma migrate dev
@@ -122,7 +90,6 @@ Our Trello board is divided into the following columns:
    git checkout main
    git pull origin main
    git checkout -b feature/trello-card-name
-   # Example: git checkout -b feature/nurse-feedback-ui
 3. Commit your changes with clear, descriptive messages:
    bash
    git add .
