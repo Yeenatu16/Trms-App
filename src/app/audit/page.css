@@ -1,0 +1,118 @@
+.audit-container {
+  padding: 3rem;
+  background-color: var(--bg-color);
+  min-height: 100vh;
+}
+
+.audit-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2.5rem;
+}
+
+.audit-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.export-btn {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(67,97,238,0.3);
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: var(--surface-color);
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+.audit-table-wrap {
+  background: var(--surface-color);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  overflow-x: auto;
+}
+
+.audit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.audit-table th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: rgba(0,0,0,0.02);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.audit-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--glass-border);
+  color: var(--text-main);
+}
+
+.audit-table tr:last-child td { border-bottom: none; }
+.audit-table tbody tr { transition: background 0.2s; }
+.audit-table tbody tr:hover { background: rgba(67,97,238,0.02); }
+
+.action-chip {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 20px;
+  font-size: 0.73rem;
+  font-weight: 700;
+  background: rgba(67,97,238,0.08);
+  color: var(--primary);
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.page-btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 8px;
+  background: var(--surface-color);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.page-btn:hover:not(:disabled) { background: var(--primary); color: white; }
+.page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
