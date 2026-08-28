@@ -1,0 +1,242 @@
+/* ============================================================ */
+/* Master Detail Facility Configuration                          */
+/* ============================================================ */
+.fac-md-root {
+  display: flex;
+  height: calc(100vh - 64px); /* assuming top bar is 64px, inside app shell */
+  background: var(--bg-color);
+  overflow: hidden;
+}
+
+/* Master List */
+.fac-md-master {
+  width: 380px;
+  min-width: 340px;
+  border-right: 1px solid var(--border-color);
+  background: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 5;
+}
+
+.fac-md-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.fac-md-search {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+.fac-md-search input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.875rem;
+  outline: none;
+  font-family: inherit;
+}
+.search-icon { color: var(--text-muted); }
+
+.fac-md-list {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.fac-md-card {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+.fac-md-card:hover {
+  background: #f8fafc;
+}
+.fac-md-card.active {
+  background: var(--primary-light);
+  border-left: 3px solid var(--primary);
+}
+
+.fac-md-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+.fac-md-card-title {
+  font-weight: 700;
+  color: var(--text-main);
+  font-size: 0.95rem;
+}
+.fac-md-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.fac-md-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.fac-md-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+/* Detail View */
+.fac-md-detail {
+  flex: 1;
+  background: #f1f5f9;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.fac-md-empty {
+  margin: auto;
+  text-align: center;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.fac-md-empty h2 {
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.fac-detail-content {
+  padding: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.fac-detail-header {
+  background: white;
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+}
+
+.fac-detail-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.fac-detail-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+.fac-detail-meta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 0.4rem;
+}
+
+.fac-services-section {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+}
+
+.fac-table-wrapper {
+  overflow-x: auto;
+}
+
+.fac-services-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.fac-services-table th {
+  text-align: left;
+  padding: 0.85rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  border-bottom: 2px solid var(--border-color);
+}
+.fac-services-table td {
+  padding: 1rem 0.85rem;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.875rem;
+  color: var(--text-main);
+  vertical-align: middle;
+}
+
+.srv-status-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.8);
+}
+
+/* Modal Specifics */
+.fac-modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+  padding: 1rem;
+}
+.fac-modal-box {
+  background: white;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  display: flex; flex-direction: column;
+}
+.fac-modal-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.fac-modal-header h3 { font-weight: 700; font-size: 1.1rem; }
+.fac-modal-body {
+  padding: 1.5rem;
+  overflow-y: auto;
+  max-height: 75vh;
+}
+
+.fac-checklist {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+}
+.fac-checklist-item {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.85rem; cursor: pointer;
+}
