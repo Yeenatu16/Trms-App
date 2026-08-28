@@ -1,0 +1,30 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+
+# environment
+.env
+.env.local
+
+# logs
+logs
+*.log
+
+# prisma
+prisma/dev.db
+
+# coverage
+coverage/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
