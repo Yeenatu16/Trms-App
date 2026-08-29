@@ -13,23 +13,22 @@ export default function ReportsPage() {
   const [error, setError] = useState('');
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
-    setMounted(true);
-    fetchData();
-  }, []);
-
   const fetchData = async () => {
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/analytics/comprehensive`, {
         withCredentials: true
       });
       setData(res.data);
-      setLoading(false);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to load analytics data.');
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setMounted(true);
+    fetchData();
+  }, []);
 
   if (loading) {
     return (

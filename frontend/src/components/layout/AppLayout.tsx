@@ -23,6 +23,7 @@ export function AppLayout({ children, title = "TRMS" }: AppLayoutProps) {
   useEffect(() => {
     let socket: any = null
     try {
+      // eslint-disable-next-line @typescript-eslint/no-require-imports
       const io = require("socket.io-client")
       socket = io("http://localhost:3001", { transports: ["websocket"], reconnectionAttempts: 5 })
       socket.on("connect",    () => { setWsConnected(true);  setSyncStatus("synced")  })
