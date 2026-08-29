@@ -1,7 +1,10 @@
-export async function fetchWithAuth(url: string, options: RequestInit = {}) {
-  let token = null;
+export async function fetchWithAuth(url: string, options: RequestInit = {}, serverToken?: string) {
+  let token = serverToken;
+
   if (typeof window !== 'undefined') {
-    token = localStorage.getItem('trms_token');
+    // Client-side: extract from document.cookie
+    const match = document.cookie.match(new RegExp('(^| )trms_token=([^;]+)'));
+    if (match) token = match[2];
   }
 
   const headers = new Headers(options.headers || {});
@@ -11,8 +14,6 @@ export async function fetchWithAuth(url: string, options: RequestInit = {}) {
     headers.set('Authorization', `Bearer ${token}`);
   }
   
-  // Keep credentials include for fallback to cookie if someone wants it, 
-  // but mostly relying on Authorization Header now.
   return fetch(url, {
     ...options,
     headers,

@@ -1,11 +1,11 @@
-"use client";
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import Link from 'next/link';
 import {
   Users, Building2, FileText, Clock, CheckCircle2,
   AlertTriangle, ArrowUpRight, ArrowDownRight, Activity
 } from 'lucide-react';
+import { cookies } from 'next/headers';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
@@ -26,30 +26,31 @@ const RECENT_ACTIVITY = [
   { id: 5, type: 'completed',msg: 'Referral #R-0836 marked as Completed', time: '3 hr ago', color: 'bg-teal-500' },
 ];
 
-export default function AdminDashboard() {
-  const [stats, setStats] = useState(MOCK_STATS);
-  const [isLoading, setIsLoading] = useState(true);
+async function getStats(token?: string) {
+  try {
+    const res = await fetchWithAuth(`${API_URL}/api/analytics/summary`, { next: { revalidate: 0 } }, token);
+    if (!res.ok) throw new Error(`Failed: ${res.status}`);
+    const data = await res.json();
+    
+    const s = { ...MOCK_STATS, totalReferrals: data.total, acceptedToday: data.accepted, activeFacilities: data.activeFacilities || MOCK_STATS.activeFacilities };
+    const pBreakdown = { EMERGENCY: 0, URGENT: 0, ROUTINE: 0 };
+    const stBreakdown: Record<string, number> = { SUBMITTED: 0, ACCEPTED: 0, REJECTED: 0, COMPLETED: 0 };
+    data.byPriority?.forEach((p: any) => { (pBreakdown as any)[p.priority] = p.count; });
+    data.byStatus?.forEach((st: any) => { stBreakdown[st.status] = st.count; });
+    s.priorityBreakdown = pBreakdown as any;
+    s.statusBreakdown = stBreakdown as any;
+    s.pendingReferrals = stBreakdown.SUBMITTED || 0;
+    return s;
+  } catch (error) {
+    console.log("Using fallback analytics data");
+    return MOCK_STATS;
+  }
+}
 
-  useEffect(() => {
-    fetchWithAuth(`${API_URL}/api/analytics/summary`)
-      .then(async res => {
-        if (!res.ok) return Promise.reject(`Failed: ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        const s = { ...MOCK_STATS, totalReferrals: data.total, acceptedToday: data.accepted, activeFacilities: data.activeFacilities || MOCK_STATS.activeFacilities };
-        const pBreakdown = { EMERGENCY: 0, URGENT: 0, ROUTINE: 0 };
-        const stBreakdown: Record<string, number> = { SUBMITTED: 0, ACCEPTED: 0, REJECTED: 0, COMPLETED: 0 };
-        data.byPriority?.forEach((p: any) => { (pBreakdown as any)[p.priority] = p.count; });
-        data.byStatus?.forEach((st: any) => { stBreakdown[st.status] = st.count; });
-        s.priorityBreakdown = pBreakdown as any;
-        s.statusBreakdown = stBreakdown as any;
-        s.pendingReferrals = stBreakdown.SUBMITTED || 0;
-        setStats(s);
-      })
-      .catch(() => console.log("Using fallback analytics data"))
-      .finally(() => setIsLoading(false));
-  }, []);
+export default async function AdminDashboard() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get('trms_token')?.value;
+  const stats = await getStats(token);
 
   const kpiCards = [
     { label: 'Total Referrals', value: stats.totalReferrals, delta: '+12%', up: true, icon: FileText, colorClass: 'blue' },
@@ -92,7 +93,7 @@ export default function AdminDashboard() {
                 {k.delta}
               </div>
             </div>
-            <div className="kpi-value">{isLoading ? '...' : k.value.toLocaleString()}</div>
+            <div className="kpi-value">{k.value.toLocaleString()}</div>
             <div className="kpi-label">{k.label}</div>
           </div>
         ))}
@@ -106,29 +107,27 @@ export default function AdminDashboard() {
             <div className="panel-desc">Current state of all tracked referrals</div>
           </div>
           <div className="panel-body">
-            {isLoading ? <div>Loading stats...</div> : (
-              <div className="status-bars">
-                {[
-                  { label: 'Submitted', val: stats.statusBreakdown.SUBMITTED || 0, color: '#f59e0b' },
-                  { label: 'Accepted',  val: stats.statusBreakdown.ACCEPTED || 0, color: '#3b82f6' },
-                  { label: 'Rejected',  val: stats.statusBreakdown.REJECTED || 0, color: '#ef4444' },
-                  { label: 'Completed', val: stats.statusBreakdown.COMPLETED || 0, color: '#10b981' },
-                ].map(s => {
-                  const pct = getPercentage(s.val);
-                  return (
-                    <div key={s.label} className="status-row">
-                      <div className="status-labels">
-                        <span>{s.label}</span>
-                        <span style={{ fontWeight: 700 }}>{s.val}</span>
-                      </div>
-                      <div className="status-track">
-                        <div className="status-fill" style={{ width: `${pct}%`, background: s.color }} />
-                      </div>
+            <div className="status-bars">
+              {[
+                { label: 'Submitted', val: stats.statusBreakdown.SUBMITTED || 0, color: '#f59e0b' },
+                { label: 'Accepted',  val: stats.statusBreakdown.ACCEPTED || 0, color: '#3b82f6' },
+                { label: 'Rejected',  val: stats.statusBreakdown.REJECTED || 0, color: '#ef4444' },
+                { label: 'Completed', val: stats.statusBreakdown.COMPLETED || 0, color: '#10b981' },
+              ].map(s => {
+                const pct = getPercentage(s.val);
+                return (
+                  <div key={s.label} className="status-row">
+                    <div className="status-labels">
+                      <span>{s.label}</span>
+                      <span style={{ fontWeight: 700 }}>{s.val}</span>
                     </div>
-                  );
-                })}
-              </div>
-            )}
+                    <div className="status-track">
+                      <div className="status-fill" style={{ width: `${pct}%`, background: s.color }} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
 

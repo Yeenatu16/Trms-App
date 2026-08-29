@@ -57,9 +57,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  // Helper to get cookie
+  const getCookie = (name: string) => {
+    if (typeof document === 'undefined') return null;
+    const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+    return null;
+  };
+
+  // Helper to set cookie
+  const setCookie = (name: string, value: string, days: number = 7) => {
+    let expires = '';
+    if (days) {
+      const date = new Date();
+      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + (value || '') + expires + '; path=/';
+  };
+
+  // Helper to remove cookie
+  const removeCookie = (name: string) => {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  };
+
   useEffect(() => {
     const checkSession = async () => {
-      const storedToken = localStorage.getItem('trms_token');
+      const storedToken = getCookie('trms_token');
 
       // Set axios default header before the session call so the server can
       // pick up the Bearer token even if the HttpOnly cookie has expired.
@@ -74,7 +98,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         if (res.data && res.data.token) {
           // Server returned a fresh token — use it
-          localStorage.setItem('trms_token', res.data.token);
+          setCookie('trms_token', res.data.token);
           axios.defaults.headers.common['Authorization'] = `Bearer ${res.data.token}`;
           setUser(res.data.user);
         } else if (res.data && res.data.id) {
@@ -82,7 +106,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setUser(res.data);
         } else if (storedToken) {
           // Session endpoint returned null (cookie may have expired) but we
-          // still have a localStorage token — try to restore user from it locally.
+          // still have a cookie token — try to restore user from it locally.
           // The backend will verify the signature on every real API call anyway.
           const payload = decodeJwtPayload(storedToken);
           if (payload && payload.exp * 1000 > Date.now()) {
@@ -96,7 +120,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             });
           } else {
             // Token is genuinely expired — clear everything
-            localStorage.removeItem('trms_token');
+            removeCookie('trms_token');
             delete axios.defaults.headers.common['Authorization'];
             setUser(null);
           }
@@ -117,7 +141,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
               lastName: '',
             });
           } else {
-            localStorage.removeItem('trms_token');
+            removeCookie('trms_token');
             delete axios.defaults.headers.common['Authorization'];
             setUser(null);
           }
@@ -145,7 +169,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const u = res.data.user;
     const t = res.data.token;
     if (t) {
-      localStorage.setItem('trms_token', t);
+      setCookie('trms_token', t);
       axios.defaults.headers.common['Authorization'] = `Bearer ${t}`;
     }
     setUser(u);
@@ -161,7 +185,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const u = res.data.user;
     const t = res.data.token;
     if (t) {
-      localStorage.setItem('trms_token', t);
+      setCookie('trms_token', t);
       axios.defaults.headers.common['Authorization'] = `Bearer ${t}`;
     }
     setUser(u);
@@ -172,7 +196,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     try {
       await axios.post('http://localhost:3001/auth/logout', {}, { withCredentials: true });
     } catch { }
-    localStorage.removeItem('trms_token');
+    removeCookie('trms_token');
     delete axios.defaults.headers.common['Authorization'];
     setUser(null);
     router.push('/');

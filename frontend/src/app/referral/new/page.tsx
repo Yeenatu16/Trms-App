@@ -265,7 +265,7 @@ export default function NewReferral() {
       alert(isOffline
         ? 'Draft saved offline! Will sync automatically when connected.'
         : 'Referral submitted & saved locally. Syncing to server...');
-      window.location.href = '/nurse'; // Redirect back to nurse dashboard
+      router.push('/nurse'); // Redirect back to nurse dashboard
     } catch (err) {
       console.error(err);
       alert('Failed to save to local offline store.');
@@ -303,12 +303,12 @@ export default function NewReferral() {
     <div className="referral-page">
       {isOffline && (
         <div className="offline-banner">
-          ⚠️ Offline Mode — Data saved locally. Will sync automatically when connectivity is restored.
+           Offline Mode — Data saved locally. Will sync automatically when connectivity is restored.
         </div>
       )}
       {!form.referral?.originFacilityId && !isLoading && (
         <div className="offline-banner" style={{ backgroundColor: 'var(--danger)', color: 'white' }}>
-          ⚠️ You do not have an origin facility assigned. You cannot submit referrals. Contact an administrator.
+           You do not have an origin facility assigned. You cannot submit referrals. Contact an administrator.
         </div>
       )}
 
@@ -379,12 +379,12 @@ export default function NewReferral() {
                 <div className="input-row">
                   <div className="form-group">
                     <label>Medical Record Number (MRN) <span className="required">*</span></label>
-                    <input required type="text" className="form-input" value={form.patient?.mrn}
+                    <input required name="mrn" type="text" className="form-input" value={form.patient?.mrn}
                       onChange={e => updatePatient({ mrn: e.target.value })} />
                   </div>
                   <div className="form-group">
                     <label>First Name <span className="required">*</span></label>
-                    <input required type="text" className="form-input" value={form.patient?.firstName}
+                    <input required name="firstName" type="text" className="form-input" value={form.patient?.firstName}
                       onChange={e => updatePatient({ firstName: e.target.value })} />
                   </div>
                 </div>
@@ -392,12 +392,12 @@ export default function NewReferral() {
                 <div className="input-row">
                   <div className="form-group">
                     <label>Last Name <span className="required">*</span></label>
-                    <input required type="text" className="form-input" value={form.patient?.lastName}
+                    <input required name="lastName" type="text" className="form-input" value={form.patient?.lastName}
                       onChange={e => updatePatient({ lastName: e.target.value })} />
                   </div>
                   <div className="form-group">
                     <label>Phone Number</label>
-                    <input type="tel" className="form-input" placeholder="+251 9XX XXX XXX" value={form.patient?.phone ?? ''}
+                    <input name="phone" type="tel" className="form-input" placeholder="+251 9XX XXX XXX" value={form.patient?.phone ?? ''}
                       onChange={e => updatePatient({ phone: e.target.value })} />
                   </div>
                 </div>
@@ -405,7 +405,7 @@ export default function NewReferral() {
                 <div className="input-row">
                   <div className="form-group">
                     <label>Sex <span className="required">*</span></label>
-                    <select className="form-select" value={form.patient?.sex}
+                    <select name="sex" className="form-select" value={form.patient?.sex}
                       onChange={e => updatePatient({ sex: e.target.value as any })}>
                       <option value="UNKNOWN">Select…</option>
                       <option value="MALE">Male</option>
@@ -415,7 +415,7 @@ export default function NewReferral() {
                   </div>
                   <div className="form-group">
                     <label>Age</label>
-                    <input type="number" className="form-input" min={0} max={130} value={form.patient?.age ?? ''}
+                    <input name="age" type="number" className="form-input" min={0} max={130} value={form.patient?.age ?? ''}
                       onChange={e => updatePatient({ age: parseInt(e.target.value) || undefined })} />
                   </div>
                 </div>
@@ -434,6 +434,7 @@ export default function NewReferral() {
                     {(['ROUTINE', 'URGENT', 'EMERGENCY'] as const).map(p => (
                       <button
                         key={p} type="button"
+                        name={`priority-${p.toLowerCase()}`}
                         className={`priority-btn priority-${p.toLowerCase()} ${form.referral?.priority === p ? 'selected' : ''}`}
                         onClick={() => updateReferral({ priority: p })}
                       >
@@ -447,6 +448,7 @@ export default function NewReferral() {
                   <label className="hospital-first-label">1. Select Destination Hospital <span className="required">*</span></label>
                   <select 
                     required 
+                    name="destFacilityId"
                     className="form-select select-lg"
                     value={form.referral?.destFacilityId || ''}
                     onChange={e => updateReferral({ destFacilityId: e.target.value, serviceCategory: '' })}
@@ -465,6 +467,7 @@ export default function NewReferral() {
                     <label className="hospital-first-label">2. Select Target Service <span className="required">*</span></label>
                     <select 
                       required 
+                      name="selectedServiceId"
                       className="form-select select-lg border-primary"
                       value={form.referral?.selectedServiceId || ''}
                       onChange={e => {
@@ -572,6 +575,7 @@ export default function NewReferral() {
                   <label>Reason for Referral, Current Condition & Diagnostics <span className="required">*</span></label>
                   <textarea
                     required
+                    name="clinicalSummary"
                     className="form-input"
                     style={{ minHeight: 220, fontSize: '0.95rem' }}
                     value={form.referral?.clinicalSummary}

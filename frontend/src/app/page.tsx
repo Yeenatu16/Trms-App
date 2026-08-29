@@ -204,7 +204,7 @@ export default function LoginPage() {
               {isLoading ? (
                 <><span className="auth-spinner" />{tab === "signin" ? "Signing In…" : "Creating Account…"}</>
               ) : (
-                <>{tab === "signin" ? <LogIn size={18} /> : <UserPlus size={18} />}{tab === "signin" ? "Sign In to TRMS" : "Create Admin Account"}</>
+                <>{tab === "signin" ? <LogIn size={18} /> : <UserPlus size={18} />}{tab === "signin" ? "Sign In" : "Create Admin Account"}</>
               )}
             </button>
           </form>
