@@ -1,0 +1,249 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id                 String       @id @default(uuid())
+  email              String       @unique
+  passwordHash       String
+  firstName          String
+  lastName           String
+  phone              String?
+  sex                Gender       @default(UNKNOWN)
+  age                Int?
+  role               Role
+  department         String?
+  status             UserStatus   @default(ACTIVE)
+  occupationDate     DateTime?
+  facilityId         String?
+  profilePicture     String?
+  lastPasswordChange DateTime?
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  auditEvents        AuditEvent[]
+  facility           Facility?    @relation("FacilityUsers", fields: [facilityId], references: [id])
+}
+
+model Facility {
+  id            String            @id @default(uuid())
+  name          String
+  code          String            @unique
+  region        String
+  zone          String?
+  woreda        String?
+  levelOfCare   String?
+  status        FacilityStatus    @default(OPERATIONAL)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  services      FacilityService[]
+  equipments    Equipment[]
+  referralsTo   ServiceRequest[]  @relation("ReferralDestination")
+  referralsFrom ServiceRequest[]  @relation("ReferralOrigin")
+  users         User[]            @relation("FacilityUsers")
+}
+
+model ClinicalServiceDirectory {
+  id               String            @id @default(uuid())
+  name             String            @unique
+  category         String            @default("General")
+  description      String?
+  createdAt        DateTime          @default(now())
+  facilityServices FacilityService[]
+}
+
+model FacilityService {
+  id                 String                   @id @default(uuid())
+  facilityId         String
+  clinicalServiceId  String
+  status             ServiceStatus            @default(OPERATIONAL)
+  updatedAt          DateTime                 @updatedAt
+  waitlistCount      Int                      @default(0)
+  bedsAvailable      Int                      @default(0)
+  bedsTotal          Int                      @default(0)
+  statusNote         String?
+  
+  facility           Facility                 @relation(fields: [facilityId], references: [id])
+  clinicalService    ClinicalServiceDirectory @relation(fields: [clinicalServiceId], references: [id])
+  specialistQueues   SpecialistQueue[]
+  equipmentLinks     ServiceEquipmentRequirement[]
+}
+
+model Equipment {
+  id                String          @id @default(uuid())
+  facilityId        String
+  name              String
+  category          String?
+  status            String          @default("FUNCTIONAL") // functional, out of service, under maintenance, unavailable
+  functional        Boolean         @default(true)
+  lastChecked       DateTime?
+  updatedAt         DateTime        @updatedAt
+
+  facility          Facility        @relation(fields: [facilityId], references: [id])
+  serviceLinks      ServiceEquipmentRequirement[]
+}
+
+model ServiceEquipmentRequirement {
+  id                String          @id @default(uuid())
+  facilityServiceId String
+  equipmentId       String
+  requiredQuantity  Int             @default(1)
+  isMandatory       Boolean         @default(true)
+
+  facilityService   FacilityService @relation(fields: [facilityServiceId], references: [id], onDelete: Cascade)
+  equipment         Equipment       @relation(fields: [equipmentId], references: [id], onDelete: Cascade)
+}
+
+model SpecialistQueue {
+  id                String          @id @default(uuid())
+  facilityServiceId String
+  specialistType    String
+  availableCount    Int             @default(1)
+  currentWaitlist   Int             @default(0)
+  updatedAt         DateTime        @updatedAt
+  facilityService   FacilityService @relation(fields: [facilityServiceId], references: [id])
+}
+
+model Patient {
+  id            String           @id @default(uuid())
+  mrn           String           @unique
+  firstName     String
+  lastName      String
+  phone         String?
+  age           Int?
+  sex           Gender
+  
+  // Clinical History fields
+  allergies     String[]
+  medications   String[]
+  diagnoses     String[]
+  clinicalNotes String?          @db.Text
+
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  consents      Consent[]
+  referrals     ServiceRequest[]
+}
+
+model ServiceRequest {
+  id                String         @id @default(uuid())
+  patientId         String
+  originId          String
+  destId            String
+  selectedServiceId String?
+  priority          Priority
+  clinicalSummary   String
+  status          ReferralStatus @default(DRAFT)
+  referralToken   String?        // FR-SVC-04: unique patient identifier token generated on acceptance
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  attachments     Attachment[]
+  consent         Consent?
+  destFacility    Facility       @relation("ReferralDestination", fields: [destId], references: [id])
+  originFacility  Facility       @relation("ReferralOrigin", fields: [originId], references: [id])
+  patient         Patient        @relation(fields: [patientId], references: [id])
+  tasks           Task[]
+}
+
+model Attachment {
+  id               String         @id @default(uuid())
+  serviceRequestId String
+  name             String
+  type             String
+  filePath         String
+  sizeKb           Int
+  createdAt        DateTime       @default(now())
+  serviceRequest   ServiceRequest @relation(fields: [serviceRequestId], references: [id])
+}
+
+model Task {
+  id               String         @id @default(uuid())
+  serviceRequestId String
+  status           TaskStatus
+  notes            String?
+  assignedToUserId String?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  serviceRequest   ServiceRequest @relation(fields: [serviceRequestId], references: [id])
+}
+
+model Consent {
+  id               String          @id @default(uuid())
+  patientId        String
+  serviceRequestId String?         @unique
+  consentGiven     Boolean
+  consentDate      DateTime        @default(now())
+  signatureOrThumb String?
+  patient          Patient         @relation(fields: [patientId], references: [id])
+  serviceRequest   ServiceRequest? @relation(fields: [serviceRequestId], references: [id])
+}
+
+model AuditEvent {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String
+  resource   String
+  resourceId String?
+  details    String?
+  timestamp  DateTime @default(now())
+  ipAddress  String?
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum Role {
+  NURSE
+  LIAISON_OFFICER
+  ADMINISTRATOR
+  ANALYST
+}
+
+enum FacilityStatus {
+  OPERATIONAL
+  LIMITED_CAPACITY
+  UNAVAILABLE
+}
+
+enum ServiceStatus {
+  OPERATIONAL
+  LIMITED_CAPACITY
+  FULL
+  UNAVAILABLE
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  UNKNOWN
+}
+
+enum Priority {
+  ROUTINE
+  URGENT
+  EMERGENCY
+}
+
+enum ReferralStatus {
+  DRAFT
+  SUBMITTED
+  ACCEPTED
+  REJECTED
+  REDIRECTED
+  PENDING_INFO
+  COMPLETED
+}
+
+enum TaskStatus {
+  REQUESTED
+  IN_PROGRESS
+  REJECTED
+  COMPLETED
+}
