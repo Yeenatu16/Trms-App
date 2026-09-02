@@ -77,7 +77,7 @@ export default function LoginPage() {
           </div>
 
           {/* Roles */}
-          <div className="auth-roles-preview">
+          {/* <div className="auth-roles-preview">
             {ROLES.map(r => (
               <div key={r.title} className="auth-role-chip">
                 <span>{r.icon}</span>
@@ -87,7 +87,7 @@ export default function LoginPage() {
                 </div>
               </div>
             ))}
-          </div>
+          </div> */}
 
         </div>
       </aside>
@@ -131,7 +131,7 @@ export default function LoginPage() {
                 <div className="auth-input-wrap">
                   <User size={16} className="auth-input-icon" />
                   <input className="auth-input" id="reg-name" type="text"
-                    placeholder="Dr. Abebe Kebede"
+                    placeholder="Enter your full name"
                     value={name} onChange={e => setName(e.target.value)}
                     required autoComplete="name" />
                 </div>
@@ -155,7 +155,7 @@ export default function LoginPage() {
                 <Lock size={16} className="auth-input-icon" />
                 <input className="auth-input" id="auth-password"
                   type={showPw ? "text" : "password"}
-                  placeholder="••••••••"
+                  placeholder="Enter your password"
                   value={password} onChange={e => setPassword(e.target.value)}
                   required minLength={8}
                   autoComplete={tab === "signin" ? "current-password" : "new-password"}
@@ -173,7 +173,7 @@ export default function LoginPage() {
                   <Lock size={16} className="auth-input-icon" />
                   <input className="auth-input" id="auth-confirm"
                     type={showCPw ? "text" : "password"}
-                    placeholder="Re-enter password"
+                    placeholder="Re-enter your password"
                     value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
                     required minLength={8}
                     autoComplete="new-password"
@@ -191,7 +191,7 @@ export default function LoginPage() {
                 <div className="auth-input-wrap">
                   <Lock size={16} className="auth-input-icon" />
                   <input className="auth-input" id="auth-code" type="password"
-                    placeholder="Enter admin verification code"
+                    placeholder="Enter admin authorization code"
                     value={authCode} onChange={e => setAuthCode(e.target.value)}
                     required />
                 </div>
