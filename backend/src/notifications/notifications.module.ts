@@ -1,4 +1,8 @@
-import { Module } from '@nestjs/common';
+// import { Module } from '@nestjs/common';
+// import { NotificationsService } from './notifications.service';
 
-@Module({})
-export class NotificationsModule {}
+// @Module({
+//   providers: [NotificationsService],
+//   exports: [NotificationsService], // Exported for Triage module
+// })
+// export class NotificationsModule {}

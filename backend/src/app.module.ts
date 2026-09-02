@@ -1,24 +1,46 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller.js';
-import { AppService } from './app.service.js';
-import { AuthModule } from './auth/auth.module.js';
-import { UsersModule } from './users/users.module.js';
-import { AnalyticsModule } from './analytics/analytics.module.js';
-import { AuditModule } from './audit/audit.module.js';
-import { CommonModule } from './common/common.module.js';
-import { DirectoryModule } from './directory/directory.module.js';
-import { EventsModule } from './events/events.module.js';
-import { NotificationsModule } from './notifications/notifications.module.js';
-import { PatientsModule } from './patients/patients.module.js';
-import { ReferralsModule } from './referrals/referrals.module.js';
-import { SyncModule } from './sync/sync.module.js';
-import { TriageModule } from './triage/triage.module.js';
-import { FhirModule } from './fhir/fhir.module.js';
-import { AttachmentsModule } from './attachments/attachments.module.js';
+import { Module } from "@nestjs/common";
+import { ConfigModule } from "@nestjs/config";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
+import { AuthModule } from "./auth/auth.module";
+import { SyncModule } from "./sync/sync.module";
+import { TriageModule } from "./triage/triage.module";
+// import { NotificationsModule } from './notifications/notifications.module';
+import { AnalyticsModule } from "./analytics/analytics.module";
+import { AuditModule } from "./audit/audit.module";
+import { PatientsModule } from "./patients/patients.module";
+import { EventsModule } from "./events/events.module";
+import { FhirModule } from "./fhir/fhir.module";
+import { HealthController } from "./health.controller";
+import { DirectoryModule } from "./directory/directory.module";
+import { AttachmentsModule } from "./attachments/attachments.module";
+import { UsersModule } from "./users/users.module";
+import { ReferralsModule } from "./referrals/referrals.module";
 
 @Module({
-  imports: [AuthModule, UsersModule, AnalyticsModule, AuditModule, CommonModule, DirectoryModule, EventsModule, NotificationsModule, PatientsModule, ReferralsModule, SyncModule, TriageModule, FhirModule, AttachmentsModule],
-  controllers: [AppController],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, "..", "storage"),
+      serveRoot: "/uploads",
+    }),
+    AuthModule,
+    SyncModule,
+    TriageModule,
+    // NotificationsModule,
+    AnalyticsModule,
+    AuditModule,
+    PatientsModule,
+    EventsModule,
+    FhirModule,
+    DirectoryModule,
+    AttachmentsModule,
+    UsersModule,
+    ReferralsModule,
+  ],
+  controllers: [AppController, HealthController],
   providers: [AppService],
 })
 export class AppModule {}
