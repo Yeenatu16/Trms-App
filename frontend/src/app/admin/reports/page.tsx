@@ -19,6 +19,7 @@ export default function ReportsPage() {
         withCredentials: true
       });
       setData(res.data);
+      setLoading(false);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Failed to load analytics data.');
       setLoading(false);
