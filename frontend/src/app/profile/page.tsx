@@ -17,7 +17,7 @@ const ROLE_BADGE: Record<string, string> = {
   LIAISON_OFFICER: 'badge-liaison',
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 function ProfileContent() {
   const { user, logout, refreshUser } = useAuth();

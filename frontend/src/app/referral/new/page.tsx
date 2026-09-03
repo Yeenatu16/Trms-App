@@ -7,7 +7,7 @@ import './page.css';
 import { saveReferralDraft, LocalReferralDraft, LocalAttachment } from '@/lib/db';
 import { runSyncEngine } from '@/lib/syncEngine';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 type Facility = {
   id: string;

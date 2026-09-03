@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       try {
-        const res = await axios.get('http://localhost:3001/auth/session', {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}/auth/session`, {
           withCredentials: true,
         });
 
@@ -162,7 +162,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const login = async (email: string, password: string) => {
     const res = await axios.post(
-      'http://localhost:3001/auth/login',
+      `${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}/auth/login`,
       { email, password },
       { withCredentials: true }
     );
@@ -178,7 +178,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signup = async (name: string, email: string, password: string, role: string, authCode?: string) => {
     const res = await axios.post(
-      'http://localhost:3001/auth/signup',
+      `${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}/auth/signup`,
       { name, email, password, role, authCode },
       { withCredentials: true }
     );
@@ -194,7 +194,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = async () => {
     try {
-      await axios.post('http://localhost:3001/auth/logout', {}, { withCredentials: true });
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}/auth/logout`, {}, { withCredentials: true });
     } catch { }
     removeCookie('trms_token');
     delete axios.defaults.headers.common['Authorization'];
@@ -204,7 +204,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const refreshUser = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/users/profile', {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}/api/users/profile`, {
         withCredentials: true,
       });
       setUser(res.data);

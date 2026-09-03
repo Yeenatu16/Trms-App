@@ -88,7 +88,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const io = require('socket.io-client');
-      socket = io('http://localhost:3001', { transports: ['websocket'], reconnectionAttempts: 5 });
+      socket = io((process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'), { transports: ['websocket'], reconnectionAttempts: 5 });
       socket.on('connect',    () => { setWsConnected(true);  setSyncStatus('synced') });
       socket.on('disconnect', () => { setWsConnected(false); setSyncStatus('offline') });
       socket.on('syncing',    () => setSyncStatus('pending'));
@@ -191,7 +191,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
                 <div className="avatar">
                   {user.profilePicture ? (
                     <img 
-                      src={`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}${user.profilePicture}`} 
+                      src={`${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}${user.profilePicture}`} 
                       alt="Avatar" 
                       style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} 
                     />

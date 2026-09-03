@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { AlertTriangle, Clock, Hospital, RefreshCw, Filter } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 const PRIORITY_ORDER: Record<string, number> = { EMERGENCY: 0, URGENT: 1, ROUTINE: 2 };
 const PRIORITY_COLOR: Record<string, string> = { EMERGENCY: 'emergency', URGENT: 'urgent', ROUTINE: 'routine' };
