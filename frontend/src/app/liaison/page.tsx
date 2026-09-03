@@ -1,11 +1,12 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useEffect, useState } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { Activity, CheckCircle, XCircle, AlertTriangle, Clock, Hospital, ChevronRight, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 const STATUS_BADGE: Record<string, string> = {
   DRAFT:        'badge-draft',

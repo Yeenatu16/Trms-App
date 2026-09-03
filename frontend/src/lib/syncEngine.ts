@@ -1,8 +1,9 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import { getPendingReferrals, markReferralsSynced, incrementSyncRetries } from './db';
 import { fetchWithAuth } from '@/lib/api';
 
-const BACKEND_API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const BACKEND_API_URL = getApiUrl();
 
 let isSyncing = false;
 let consecutiveFailures = 0;

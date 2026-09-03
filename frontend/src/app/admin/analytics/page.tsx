@@ -1,3 +1,4 @@
+import { getApiUrl } from '@/lib/config';
 import { fetchWithAuth } from '@/lib/api';
 import { Users, Building2, FileText, Activity, TrendingUp, TrendingDown } from 'lucide-react';
 import dynamic from 'next/dynamic';
@@ -7,7 +8,7 @@ const AnalyticsCharts = dynamic(() => import('./AnalyticsCharts'), {
   loading: () => <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '5rem', color: 'var(--text-muted)' }}>Loading charts...</div>
 });
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 async function getAnalyticsSummary(token?: string) {
   try {

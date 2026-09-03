@@ -1,10 +1,11 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useState, useEffect } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { Search, Plus, MapPin, Activity, Edit2, Shield, X, Save, Clock, ChevronRight, ActivitySquare } from 'lucide-react';
 import './facilities.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 interface Equipment {
   id: string;

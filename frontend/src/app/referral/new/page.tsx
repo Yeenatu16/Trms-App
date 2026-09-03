@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
@@ -7,7 +8,7 @@ import './page.css';
 import { saveReferralDraft, LocalReferralDraft, LocalAttachment } from '@/lib/db';
 import { runSyncEngine } from '@/lib/syncEngine';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 type Facility = {
   id: string;

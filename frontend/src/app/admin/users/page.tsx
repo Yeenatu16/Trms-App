@@ -1,9 +1,10 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useEffect, useState, useRef } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import './page.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 // Dynamically fetched from /api/directory/facilities
 type Facility = { id: string; name: string; code: string };

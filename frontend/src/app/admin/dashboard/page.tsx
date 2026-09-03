@@ -1,3 +1,4 @@
+import { getApiUrl } from '@/lib/config';
 import React from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import Link from 'next/link';
@@ -7,7 +8,7 @@ import {
 } from 'lucide-react';
 import { cookies } from 'next/headers';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 const MOCK_STATS = {
   totalReferrals: 847,

@@ -1,3 +1,4 @@
+import { getApiUrl } from '@/lib/config';
 "use client"
 import React, { useState, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
@@ -25,7 +26,7 @@ export function AppLayout({ children, title = "TRMS" }: AppLayoutProps) {
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
       const io = require("socket.io-client")
-      socket = io((process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')), { transports: ["websocket"], reconnectionAttempts: 5 })
+      socket = io((getApiUrl()), { transports: ["websocket"], reconnectionAttempts: 5 })
       socket.on("connect",    () => { setWsConnected(true);  setSyncStatus("synced")  })
       socket.on("disconnect", () => { setWsConnected(false); setSyncStatus("offline") })
       socket.on("syncing",    () => { setSyncStatus("pending") })

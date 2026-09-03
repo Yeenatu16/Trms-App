@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import './reports.css';
@@ -15,7 +16,7 @@ export default function ReportsPage() {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}/api/analytics/comprehensive`, {
+      const res = await axios.get(`${getApiUrl()}/api/analytics/comprehensive`, {
         withCredentials: true
       });
       setData(res.data);

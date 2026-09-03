@@ -1,10 +1,11 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useState, useEffect } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { Bell, CheckCircle, XCircle, Clock, ArrowRightCircle } from 'lucide-react';
 import './notifications.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 export default function NurseNotifications() {
   const [notifications, setNotifications] = useState<any[]>([]);

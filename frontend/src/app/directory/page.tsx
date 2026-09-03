@@ -1,11 +1,12 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useState, useEffect, useMemo } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import { useAuth } from '@/context/AuthContext';
 import { Search, MapPin, RefreshCw, Plus, Edit2, Hospital } from 'lucide-react';
 import './directory.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 const SERVICE_STATUS_LABELS: Record<string, string> = {
   OPERATIONAL: 'Fully Functional',

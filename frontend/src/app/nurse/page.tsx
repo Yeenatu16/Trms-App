@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
@@ -7,7 +8,7 @@ import { fetchWithAuth } from '@/lib/api';
 import { Plus, ClipboardList, Hospital, AlertTriangle, ChevronRight, Clock, RefreshCw, Send, Globe } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 const PRIORITY_BADGE: Record<string, string> = {
   EMERGENCY: 'badge-emergency',

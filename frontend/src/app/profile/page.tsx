@@ -1,4 +1,5 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useState, useRef, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
@@ -17,7 +18,7 @@ const ROLE_BADGE: Record<string, string> = {
   LIAISON_OFFICER: 'badge-liaison',
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 function ProfileContent() {
   const { user, logout, refreshUser } = useAuth();

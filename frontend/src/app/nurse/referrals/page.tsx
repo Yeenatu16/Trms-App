@@ -1,10 +1,11 @@
 "use client";
+import { getApiUrl } from '@/lib/config';
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { fetchWithAuth } from '@/lib/api';
 import './referrals.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
+const API_URL = getApiUrl();
 
 const PRIORITY_BADGE: Record<string, string> = { EMERGENCY: 'badge-emergency', URGENT: 'badge-urgent', ROUTINE: 'badge-routine' };
 const STATUS_BADGE: Record<string, string>   = { SUBMITTED: 'badge-submitted', ACCEPTED: 'badge-accepted', REJECTED: 'badge-danger', COMPLETED: 'badge-completed' };

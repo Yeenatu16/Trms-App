@@ -1,3 +1,4 @@
+import { getApiUrl } from '@/lib/config';
 "use client"
 import React from "react"
 import { Bell, Menu } from "lucide-react"
@@ -52,7 +53,7 @@ export function Header({ title, onMobileMenuToggle, wsConnected, syncStatus }: H
         <div className="flex items-center gap-2.5">
           {user?.profilePicture ? (
             <img 
-              src={`${process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001')}${user.profilePicture}`} 
+              src={`${getApiUrl()}${user.profilePicture}`} 
               alt="Avatar" 
               className="w-8 h-8 rounded-full object-cover border border-slate-200" 
             />
