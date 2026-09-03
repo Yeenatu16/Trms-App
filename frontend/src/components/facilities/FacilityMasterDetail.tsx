@@ -4,7 +4,7 @@ import { fetchWithAuth } from '@/lib/api';
 import { Search, Plus, MapPin, Activity, Edit2, Shield, X, Save, Clock, ChevronRight, ActivitySquare } from 'lucide-react';
 import './facilities.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 interface Equipment {
   id: string;

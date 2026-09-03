@@ -7,7 +7,7 @@ import { fetchWithAuth } from '@/lib/api';
 import { Plus, ClipboardList, Hospital, AlertTriangle, ChevronRight, Clock, RefreshCw, Send, Globe } from 'lucide-react';
 import { useTranslation } from '@/lib/i18n';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 const PRIORITY_BADGE: Record<string, string> = {
   EMERGENCY: 'badge-emergency',

@@ -16,7 +16,7 @@ import {
   Clock, CheckCircle, AlertTriangle, XCircle, Search, RefreshCw, Hospital, Info, ChevronRight, Activity
 } from 'lucide-react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 const PRIORITY_BADGES: Record<string, "destructive" | "warning" | "success" | "default"> = { EMERGENCY: 'destructive', URGENT: 'warning', ROUTINE: 'success' };
 const STATUS_BADGES: Record<string, "warning" | "success" | "destructive" | "default"> = { SUBMITTED: 'warning', ACCEPTED: 'success', REJECTED: 'destructive', PENDING_INFO: 'warning', REDIRECTED: 'default', COMPLETED: 'default' };

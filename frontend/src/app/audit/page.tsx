@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import './page.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 const PAGE_SIZE = 20;
 
 // Demo seed when API not available

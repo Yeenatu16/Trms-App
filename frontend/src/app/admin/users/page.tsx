@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { fetchWithAuth } from '@/lib/api';
 import './page.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 // Dynamically fetched from /api/directory/facilities
 type Facility = { id: string; name: string; code: string };

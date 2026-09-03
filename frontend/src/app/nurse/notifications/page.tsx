@@ -4,7 +4,7 @@ import { fetchWithAuth } from '@/lib/api';
 import { Bell, CheckCircle, XCircle, Clock, ArrowRightCircle } from 'lucide-react';
 import './notifications.css';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001');
 
 export default function NurseNotifications() {
   const [notifications, setNotifications] = useState<any[]>([]);
