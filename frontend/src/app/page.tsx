@@ -10,11 +10,11 @@ import "./page.css";
 
 type Tab = "signin" | "signup";
 
-const ROLES = [
-  { icon: "🏥", title: "Administrator", desc: "System-wide management & analytics" },
-  { icon: "💊", title: "Nurse", desc: "Create & track referrals offline-first" },
-  { icon: "🤝", title: "Liaison Officer", desc: "Triage, receive and update referrals" },
-];
+// const ROLES = [
+//   { icon: "🏥", title: "Administrator", desc: "System-wide management & analytics" },
+//   { icon: "💊", title: "Nurse", desc: "Create & track referrals offline-first" },
+//   { icon: "🤝", title: "Liaison Officer", desc: "Triage, receive and update referrals" },
+// ];
 
 export default function LoginPage() {
   const { login, signup } = useAuth();
@@ -99,7 +99,7 @@ export default function LoginPage() {
           {/* Title */}
           <div className="auth-form-header">
             <div className="auth-form-title">
-              {tab === "signin" ? "Welcome Back" : "Admin Registration"}
+              {tab === "signin" ? "Welcome To TRMS" : "Admin Registration"}
             </div>
             <div className="auth-form-sub">
               {tab === "signin"
