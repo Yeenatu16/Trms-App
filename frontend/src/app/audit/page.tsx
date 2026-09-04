@@ -80,7 +80,7 @@ export default function AuditLogViewer() {
           <h1 className="audit-title gradient-text">Audit Trail</h1>
           <p style={{ color: 'var(--text-muted)' }}>{total.toLocaleString()} total recorded system events</p>
         </div>
-        <button className="btn btn-primary export-btn" onClick={handleExport}>⬇ Export CSV</button>
+        <button className="btn btn-primary" onClick={handleExport}>⬇ Export CSV</button>
       </div>
 
       <div className="filter-bar">
