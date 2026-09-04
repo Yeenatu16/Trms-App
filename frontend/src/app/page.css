@@ -1,6 +1,5 @@
 /* ============================================================
    TRMS Auth Page - Professional & Responsive Layout
-   Final Version
    ============================================================ */
 
 /* Base Colors & Layout */
@@ -334,15 +333,16 @@
   }
   
   /* Slow Motion Slide in Animation exclusively on small devices */
-  @keyframes slideInFromRight {
-    0% { transform: translateX(50px); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
+  @keyframes subtleSlide {
+    0% { transform: translateX(15px); }
+    50% { transform: translateX(-15px); }
+    100% { transform: translateX(15px); }
   }
 
   .auth-hero-text h1 {
     font-size: 2rem;
     margin-bottom: 0.25rem;
-    animation: slideInFromRight 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation: subtleSlide 8s ease-in-out infinite;
   }
   
   .auth-panel-right {
