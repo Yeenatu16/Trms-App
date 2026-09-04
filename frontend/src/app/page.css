@@ -40,7 +40,7 @@
   gap: 2rem;
   width: 100%;
   height: 100%;
-  overflow-y: auto;
+  overflow-y: auto; overflow-x: hidden;
 }
 
 .auth-hero-text h1 {
@@ -63,7 +63,7 @@
   display: flex;
   flex-direction: column;
   background: #84827E; /* Matches left panel base */
-  overflow-y: auto;
+  overflow-y: auto; overflow-x: hidden;
   align-items: center;
   justify-content: center;
   padding: 2rem;
@@ -316,7 +316,7 @@
     flex-direction: column;
     height: auto;
     min-height: 100vh;
-    overflow-y: auto;
+    overflow-y: auto; overflow-x: hidden;
   }
   
   .auth-panel-left {
@@ -332,17 +332,23 @@
     justify-content: flex-start; /* Title firmly at the top */
   }
   
-  /* Slow Motion Slide in Animation exclusively on small devices */
-  @keyframes subtleSlide {
-    0% { transform: translateX(15px); }
-    50% { transform: translateX(-15px); }
-    100% { transform: translateX(15px); }
+  /* Continuous Marquee Animation exclusively on small devices */
+  @keyframes marqueeSlide {
+    0% { transform: translateX(100vw); }
+    100% { transform: translateX(-150%); }
+  }
+
+  .auth-hero-text {
+    width: 100%;
+    overflow: hidden;
   }
 
   .auth-hero-text h1 {
     font-size: 2rem;
     margin-bottom: 0.25rem;
-    animation: subtleSlide 8s ease-in-out infinite;
+    white-space: nowrap; /* Keep on one line */
+    display: inline-block;
+    animation: marqueeSlide 15s linear infinite;
   }
   
   .auth-panel-right {
