@@ -55,12 +55,7 @@
 }
 
 .auth-hero-text p {
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.95);
-  line-height: 1.6;
-  text-shadow: 0 2px 5px rgba(0,0,0,0.4);
-  max-width: 90%;
-  display: block;
+  display: none !important; /* Hidden per user request */
 }
 
 /* ================== RIGHT PANEL ================== */
@@ -338,7 +333,7 @@
     justify-content: flex-start; /* Title firmly at the top */
   }
   
-  /* Slide in Animation exclusively on small devices */
+  /* Slow Motion Slide in Animation exclusively on small devices */
   @keyframes slideInFromRight {
     0% { transform: translateX(50px); opacity: 0; }
     100% { transform: translateX(0); opacity: 1; }
@@ -347,30 +342,23 @@
   .auth-hero-text h1 {
     font-size: 2rem;
     margin-bottom: 0.25rem;
-    animation: slideInFromRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
-  
-  .auth-hero-text p {
-    font-size: 1.05rem;
-    animation: slideInFromRight 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.1s forwards;
-    opacity: 0;
+    animation: slideInFromRight 2.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
   }
   
   .auth-panel-right {
     min-height: 65vh; 
     height: auto;
-    padding: 0; /* Remove padding to let card flush to edges or use padding smartly */
+    padding: 0; 
     background: transparent;
     z-index: 10;
   }
   
   .auth-form-card {
-    padding: 2.5rem 1.5rem 3rem 1.5rem; /* Extra padding at bottom to prevent cutoff */
+    padding: 2.5rem 1.5rem 3rem 1.5rem; 
     border-radius: 24px 24px 0 0;
-    margin-top: -30px; /* Overlap the image beautifully */
+    margin-top: -30px; 
     box-shadow: 0 -10px 40px rgba(0,0,0,0.25);
     max-width: 100%;
-    /* Push content to bottom of screen if height allows */
     min-height: calc(100vh - 35vh + 30px); 
   }
 }

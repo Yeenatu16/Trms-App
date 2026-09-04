@@ -133,7 +133,7 @@ export default function LoginPage() {
                   <input className="auth-input" id="reg-name" type="text"
                     placeholder="Enter your full name"
                     value={name} onChange={e => setName(e.target.value)}
-                    required autoComplete="name" />
+                    required autoComplete="off" />
                 </div>
               </div>
             )}
@@ -145,7 +145,7 @@ export default function LoginPage() {
                 <input className="auth-input" id="auth-email" type="email"
                   placeholder={tab === "signup" ? "admin@trms.gov.et" : "user@trms.gov.et"}
                   value={email} onChange={e => setEmail(e.target.value)}
-                  required autoComplete="email" />
+                  required autoComplete="off" />
               </div>
             </div>
 
@@ -176,7 +176,7 @@ export default function LoginPage() {
                     placeholder="Re-enter your password"
                     value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}
                     required minLength={8}
-                    autoComplete="new-password"
+                    autoComplete="off"
                     style={{ paddingRight: "2.8rem" }} />
                   <button type="button" className="auth-eye-btn" onClick={() => setShowCPw(!showCPw)} tabIndex={-1}>
                     {showCPw ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -193,7 +193,7 @@ export default function LoginPage() {
                   <input className="auth-input" id="auth-code" type="password"
                     placeholder="Enter admin authorization code"
                     value={authCode} onChange={e => setAuthCode(e.target.value)}
-                    required />
+                    required autoComplete="off" />
                 </div>
               </div>
             )}
