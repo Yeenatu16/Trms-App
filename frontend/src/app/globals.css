@@ -1242,11 +1242,15 @@ button, input, select, textarea {
 /* APP FOOTER — Minimal, clean, unobtrusive                      */
 /* ============================================================ */
 .app-footer {
-  margin-top: auto;
-  padding: 1rem 0;
-  background: transparent;
-  border-top: 1px solid #e5e7eb;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #000000;
+  border-top: 1px solid #333;
   text-align: center;
+  z-index: 1000;
+  padding: 0.75rem 0;
 }
 
 .app-footer-inner {
@@ -1262,7 +1266,7 @@ button, input, select, textarea {
 .app-footer-copy {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #4b5563;
+  color: #ffffff;
 }
 
 /* Center: nav links */
