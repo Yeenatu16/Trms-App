@@ -29,6 +29,7 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isMobileFormOpen, setIsMobileFormOpen] = useState(false);
 
   const switchTab = (t: Tab) => {
     setTab(t); setError(""); setSuccess("");
@@ -64,37 +65,36 @@ export default function LoginPage() {
   return (
     <div className="auth-root">
 
-      {/* ── LEFT PANEL — Brand & Info ── */}
-      <aside className="auth-panel-left">
-        <div className="auth-left-pattern" />
-        <div className="auth-left-content">
+        {/* 🏥 LEFT PANEL - Brand & Info 🏥 */}
+        <aside className="auth-panel-left">
+          <div className="auth-left-pattern" />
+          <div className="auth-left-content">
 
+            {/* Hero */}
+            <div className={`auth-hero-text ${isMobileFormOpen ? 'hidden-on-mobile' : ''}`}>
+              <h1>Tigray Referral Management System</h1>
+              <p>Coordinating critical patient transfers securely and in real-time across the Tigray regional health.</p>
+              <button 
+                className="auth-mobile-start-btn" 
+                onClick={() => setIsMobileFormOpen(true)}
+              >
+                Get Started
+              </button>
+            </div>
 
-          {/* Hero */}
-          <div className="auth-hero-text">
-            <h1>Tigray Referral Management System</h1>
-            <p>Coordinating critical patient transfers securely and in real-time across the Tigray regional health.</p>
           </div>
+        </aside>
 
-          {/* Roles */}
-          {/* <div className="auth-roles-preview">
-            {ROLES.map(r => (
-              <div key={r.title} className="auth-role-chip">
-                <span>{r.icon}</span>
-                <div>
-                  <strong>{r.title}</strong>
-                  <span>{r.desc}</span>
-                </div>
-              </div>
-            ))}
-          </div> */}
+        {/* 📋 RIGHT PANEL - Form 📋 */}
+        <main className={`auth-panel-right ${isMobileFormOpen ? 'mobile-open' : ''}`}>
+          
+          {isMobileFormOpen && (
+            <button className="auth-mobile-close-btn" onClick={() => setIsMobileFormOpen(false)}>
+              ✖
+            </button>
+          )}
 
-        </div>
-      </aside>
-
-      {/* ── RIGHT PANEL — Form ── */}
-      <main className="auth-panel-right">
-        <div className="auth-form-card">
+          <div className="auth-form-card">
 
           {/* Title */}
           <div className="auth-form-header">
